@@ -3,15 +3,12 @@
 import type { ComponentProps } from "react"
 
 import { Button } from "@/components/ui/button"
+import { notifyComingSoon } from "@/lib/coming-soon"
 
 import { ButtonArrow } from "./button-arrow"
 
 type ComingSoonButtonProps = Omit<ComponentProps<typeof Button>, "onClick"> & {
   withArrow?: boolean
-}
-
-function notifyComingSoon() {
-  window.alert("Coming soon!")
 }
 
 export function ComingSoonButton({ withArrow = false, children, ...props }: ComingSoonButtonProps) {

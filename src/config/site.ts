@@ -43,6 +43,7 @@ export const ROUTES = {
   faqs: "/faqs",
   signIn: "/sign-in",
   signUp: "/sign-up",
+  dashboard: "/dashboard",
 } as const
 
 export const MAIN_NAV: NavItem[] = [

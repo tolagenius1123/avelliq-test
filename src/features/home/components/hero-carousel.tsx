@@ -27,7 +27,7 @@ export function HeroCarousel() {
             <PhotoCard
               image={slide.image}
               alt={slide.alt}
-              withOverlay
+              overlay="strong"
               priority={index === 0}
               sizes="(min-width: 640px) 500px, 90vw"
               className="aspect-square w-full rounded-[24px]"

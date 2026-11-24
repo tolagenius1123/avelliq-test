@@ -66,7 +66,7 @@ export function ClientSignUpForm() {
 
       <div className="flex flex-col gap-4">
         <FormikCheckboxField name="agreeToTerms" label={<TermsAgreementLabel />} />
-        <SubmitButton size="pill" isLoading={formik.isSubmitting} loadingLabel="Creating account..." className="w-full">
+        <SubmitButton size="pill-lg" isLoading={formik.isSubmitting} loadingLabel="Creating account..." className="w-full">
           Create Account
         </SubmitButton>
       </div>

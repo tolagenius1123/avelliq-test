@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 
+import { AuthEntry } from "@/features/auth/components/auth-entry"
 import { AuthScreen } from "@/features/auth/components/auth-screen"
 import { SignInForm } from "@/features/auth/components/sign-in-form"
 import { parseAuthRole } from "@/features/auth/utils"
@@ -14,7 +15,9 @@ export default async function SignInPage({ searchParams }: PageProps<"/sign-in">
 
   return (
     <AuthScreen mode="sign-in" role={role}>
-      <SignInForm />
+      <AuthEntry mode="sign-in" role={role}>
+        <SignInForm role={role} />
+      </AuthEntry>
     </AuthScreen>
   )
 }

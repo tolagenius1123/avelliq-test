@@ -8,7 +8,13 @@ import slide5 from "@/assets/images/auth/auth-slide-5.webp"
 import slide6 from "@/assets/images/auth/auth-slide-6.webp"
 import { LEGAL_NAV, ROUTES } from "@/config/site"
 
-import type { AuthMode, AuthRole, AuthScreenContent, AuthTagline } from "../types"
+import type {
+  AuthMode,
+  AuthRole,
+  AuthScreenContent,
+  AuthTagline,
+  ProfessionalSignUpStage,
+} from "../types"
 
 export const AUTH_SLIDES: { image: StaticImageData; alt: string }[] = [
   { image: slide1, alt: "A caregiver and a mother laughing with a young boy at home" },
@@ -50,7 +56,7 @@ export const AUTH_CONTENT: Record<AuthMode, Record<AuthRole, AuthScreenContent>>
       title: "Sign In to Your Account",
       description: "Welcome back! Access your dashboard and bookings.",
       tagline: {
-        title: "Welcome Back to Avelliq",
+        title: "Welcome to Avelliq",
         description: "Access your dashboard and manage household care seamlessly.",
       },
     },
@@ -67,6 +73,16 @@ export const AUTH_ROUTES: Record<AuthMode, string> = {
   "sign-up": ROUTES.signUp,
 }
 
+export const SIGN_IN_REDIRECTS: Record<AuthRole, string> = {
+  client: ROUTES.dashboard,
+  professional: ROUTES.home,
+}
+
+export const PROFESSIONAL_SIGN_UP_STAGES: { stage: ProfessionalSignUpStage; label: string }[] = [
+  { stage: "personal", label: "Personal" },
+  { stage: "professional", label: "Professional" },
+  { stage: "security", label: "Security" },
+]
 
 const legalHref = (title: string) => LEGAL_NAV.find((item) => item.title === title)?.href ?? "#"
 

@@ -2,12 +2,18 @@ import Image, { type StaticImageData } from "next/image"
 
 import { cn } from "@/lib/utils"
 
+const OVERLAY_CLASS = {
+  soft: "bg-linear-to-b from-black/0 from-55% to-black/55",
+  strong:
+    "bg-linear-to-b from-[rgba(102,102,102,0)] from-[43.9%] to-[rgba(0,0,0,0.67)] to-[81.7%]",
+} as const
+
 interface PhotoCardProps {
   image: StaticImageData
   alt: string
   title?: string
   sizes: string
-  withOverlay?: boolean
+  overlay?: keyof typeof OVERLAY_CLASS
   priority?: boolean
   className?: string
   titleClassName?: string
@@ -18,7 +24,7 @@ export function PhotoCard({
   alt,
   title,
   sizes,
-  withOverlay = false,
+  overlay,
   priority = false,
   className,
   titleClassName,
@@ -34,11 +40,8 @@ export function PhotoCard({
         placeholder="blur"
         className="object-cover"
       />
-      {withOverlay && (
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-linear-to-b from-[rgba(102,102,102,0)] from-[43.9%] to-[rgba(0,0,0,0.67)] to-[81.7%]"
-        />
+      {overlay && (
+        <div aria-hidden="true" className={cn("absolute inset-0", OVERLAY_CLASS[overlay])} />
       )}
       {title && (
         <p

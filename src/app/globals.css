@@ -59,6 +59,8 @@
   --color-linen: #FAF9F6;
   --color-error: #C73E3E;
   --color-warning: #B7791F;
+  --color-success: #18864B;
+  --color-success-soft: #D6F2E3;
   --color-ink-muted: #6D758F;
   --color-leaf: #E7F0DE;
   --color-ink-body: #374151;
@@ -102,14 +104,14 @@
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar: #4C5A3D;
+  --sidebar-foreground: #FFFFFF;
   --sidebar-primary: oklch(0.205 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-accent: #F5F2E8;
+  --sidebar-accent-foreground: #4C5A3D;
+  --sidebar-border: rgb(255 255 255 / 0.3);
+  --sidebar-ring: #F5F2E8;
 }
 
 .dark {

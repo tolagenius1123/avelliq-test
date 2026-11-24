@@ -46,7 +46,7 @@ export function ServiceGallery() {
                     image={detail.thumbnail}
                     alt={detail.thumbnailAlt}
                     title={detail.label}
-                    withOverlay
+                    overlay="strong"
                     sizes="(min-width: 640px) 500px, 85vw"
                     className="aspect-square w-full rounded-[24px] sm:w-125 [&_img]:transition-transform [&_img]:duration-700 [&_img]:ease-out group-hover:[&_img]:scale-105"
                     titleClassName="bottom-8 left-8 text-2xl font-medium"

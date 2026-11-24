@@ -12,3 +12,7 @@ export interface AuthScreenContent {
   description: string
   tagline: AuthTagline
 }
+
+export type ProfessionalSignUpStage = "personal" | "professional" | "security"
+
+export type ProfessionalSignUpStep = "account" | ProfessionalSignUpStage

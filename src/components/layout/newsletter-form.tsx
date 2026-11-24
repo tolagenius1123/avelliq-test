@@ -4,10 +4,11 @@ import type { FormEvent } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { notifyComingSoon } from "@/lib/coming-soon"
 
 function handleSubmit(event: FormEvent<HTMLFormElement>) {
   event.preventDefault()
-  window.alert("Coming soon!")
+  notifyComingSoon()
 }
 
 export function NewsletterForm() {

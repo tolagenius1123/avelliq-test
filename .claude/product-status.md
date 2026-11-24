@@ -1,6 +1,6 @@
 # Product Status
 
-Last updated: 2026-11-18. Branch: `dev`. Services page work is uncommitted at time of writing.
+Last updated: 2026-11-24. Branch: `dev`.
 
 Read `.claude/rules/rules.md` before starting any task. Those rules are mandatory.
 
@@ -16,13 +16,14 @@ Read `.claude/rules/rules.md` before starting any task. Those rules are mandator
 | Contact Us page, new Figma design | Done (`/contact`, validated form, FAQ preview) |
 | FAQs page, new Figma design | Done (`/faqs`, hero illustration, category tabs, four FAQ categories) |
 | Remaining pages (Resources) | Not started |
-| Auth screens | Done (`/sign-in`, `/sign-up`, client and professional, Formik + Yup, simulated requests, no backend) |
+| User Dashboard | Done (`/dashboard`, overview page only, mock data, no auth guard) |
+| Auth screens | Done (`/sign-in`, `/sign-up`; professional sign up is an account step plus three stages; Formik + Yup, simulated requests, no backend) |
 | Real CTAs, backend | Partial (Sign In and Join as a Professional link to auth; other buttons still show "Coming soon") |
 
 ## Stack
 
 - Next.js 16 (App Router, Turbopack), React 19, TypeScript, Tailwind CSS v4
-- shadcn/ui on Base UI (`components.json` style `base-vega`). Installed: accordion, badge, button, carousel, checkbox, dialog, field, input, label, scroll-area, select, separator, sheet, textarea
+- shadcn/ui on Base UI (`components.json` style `base-vega`). Installed: accordion, avatar, badge, button, card, carousel, checkbox, dialog, dropdown-menu, field, input, input-group, label, scroll-area, select, separator, sheet, sidebar, skeleton, textarea, tooltip
 - Forms: react-hook-form + zod (`@hookform/resolvers`), reusable fields in `src/components/form`
 - Embla Carousel with `embla-carousel-autoplay`
 - GSAP 3 (ScrollTrigger, SplitText, `@gsap/react`) and Lenis smooth scroll
@@ -74,6 +75,8 @@ src/
   - Trust & Safety page frame: node `13738:3382`
   - Contact Us page frame: node `13819:2849`
   - FAQs page frame: node `13745:4944`
+  - Sign up and sign in section: node `13980:2110`
+  - User Dashboard section: node `14483:1068` (overview page: `14501:5783`)
 - Use the Figma MCP (`get_design_context`) and follow the `figma-design-to-code` skill. Download assets locally, compress large photos with `sips` (resize, JPEG quality 80).
 - Theme tokens live in `src/app/globals.css`:
   - shadcn tokens: `background` #F5F2E8, `foreground` #111827, `primary` #4C5A3D, `secondary`/`muted` #F5EFE6, `muted-foreground` #5F6B67, `border` #D2CEC3
@@ -121,6 +124,12 @@ Carousels:
 - Contact topics are placeholder copy written in code; Figma had none. The contact FAQ preview reuses the approved FAQ copy
 - FAQs page answers use the approved client copy (updated 2026-11-18). Figma's "Nestora" mentions were changed to Avelliq
 - FAQ hero illustration (`assets/images/faq/faq-illustration.svg`) was merged from the Figma layer SVGs because the file has no export access for this account
+- Professional sign up (`useProfessionalSignUp`) keeps all values in one Formik instance and swaps the Yup schema per step. "Verify Email & Continue" is simulated: no email is sent. Values are held in memory only because they include SSN digits, so a refresh restarts the flow
+- Figma has no designs for email verification, Forgot Password or Care Agency sign up. Forgot Password and Google show the Coming soon alert, and the Care Agency tab is disabled
+- Hero category photos: Figma's Lifestyle assistant and Pet Care bitmaps are pre-stretched (2:3 and 3:2) and squeezed back by a fill-mode fill, so the local files are resampled to the 244:215 card ratio. Re-exporting the raw bitmaps brings the distortion back
+- Dashboard: shell lives in `src/app/(dashboard)/layout.tsx` (shadcn Sidebar, drawer below 768px). Layouts use container queries because the sidebar changes the available width. Dates come from `useNow` (null on the server, so skeletons render first); bookings in `data/mock.ts` are relative to today
+- Dashboard nav items without a page show the Coming soon alert. Logout links to `/sign-in` because there is no session yet. Client sign in redirects to `/dashboard`; professional sign in goes to the home page until a professional dashboard exists
+- Figma's dashboard greets "Sarah" while the header shows "Keylla Rose", and the week card names "Emily" for the booking shown with Dr. Eneoma Adebayo. The code uses one user (Keylla Rose) and one bookings list
 - Form inputs use the `stroke` border instead of Figma's near-invisible `sand` border for contrast
 - The home gallery's service detail dialog (service-detail.tsx) has not been redesigned against Figma
 

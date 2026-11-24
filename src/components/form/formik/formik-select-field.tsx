@@ -36,7 +36,7 @@ export function FormikSelectField({
           options={options}
           value={field.value || null}
           onValueChange={(value) => helpers.setValue(value ?? "")}
-          onBlur={() => helpers.setTouched(true)}
+          onBlur={() => helpers.setTouched(true, false)}
           placeholder={placeholder}
           disabled={disabled}
           aria-invalid={invalid}

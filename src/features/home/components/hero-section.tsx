@@ -55,7 +55,7 @@ export function HeroSection() {
           </div>
         </div>
 
-        <ul className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-5">
+        <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 lg:grid-cols-5">
           {HERO_CATEGORIES.map((category) => (
             <li key={category.title} data-hero-card>
               <Link
@@ -66,9 +66,10 @@ export function HeroSection() {
                   image={category.image}
                   alt={category.alt}
                   title={category.title}
-                  sizes="(min-width: 1024px) 244px, (min-width: 640px) 33vw, 50vw"
-                  className="aspect-244/215 rounded-[12px] [&_img]:transition-transform [&_img]:duration-700 [&_img]:ease-out group-hover:[&_img]:scale-110"
-                  titleClassName="[text-shadow:0_1px_3px_rgba(0,0,0,0.35)]"
+                  sizes="(min-width: 1024px) 244px, (min-width: 768px) 33vw, 50vw"
+                  overlay="soft"
+                  className="@container aspect-244/215 rounded-[12px] [&_img]:transition-transform [&_img]:duration-700 [&_img]:ease-out group-hover:[&_img]:scale-110"
+                  titleClassName="right-3 bottom-3 left-3 text-[clamp(13px,9.5cqw,20px)] leading-[1.2] md:right-4 md:bottom-4 md:left-4 [text-shadow:0_1px_3px_rgba(0,0,0,0.35)]"
                 />
               </Link>
             </li>
