@@ -6,12 +6,12 @@ import { FormikForm } from "@/components/form/formik/formik-form"
 import { FormikInputField } from "@/components/form/formik/formik-input-field"
 import { FormikPasswordField } from "@/components/form/formik/formik-password-field"
 import { SubmitButton } from "@/components/form/submit-button"
+import { simulateRequest } from "@/lib/simulate-request"
 import {
   CLIENT_SIGN_UP_INITIAL_VALUES,
   clientSignUpValidationSchema,
 } from "@/schemas/validation-schemas"
 
-import { simulateAuthRequest } from "../api"
 import { useAuthForm } from "../hooks/use-auth-form"
 import { authHref } from "../utils"
 import { TermsAgreementLabel } from "./terms-agreement-label"
@@ -20,7 +20,7 @@ export function ClientSignUpForm() {
   const formik = useAuthForm({
     initialValues: CLIENT_SIGN_UP_INITIAL_VALUES,
     validationSchema: clientSignUpValidationSchema,
-    request: simulateAuthRequest,
+    request: simulateRequest,
     redirectTo: authHref("sign-in", "client"),
     successMessage: "Account created. Please sign in to continue.",
     errorMessage: "We couldn't create your account. Please try again.",

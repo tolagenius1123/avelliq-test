@@ -1,20 +1,15 @@
 "use client"
 
-import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useState } from "react"
 
 import { Button } from "@/components/ui/button"
-import {
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
+import { WeekCardShell } from "@/features/bookings/components/week-card-shell"
+import { useBookings } from "@/features/bookings/hooks/use-bookings"
+import type { Booking } from "@/features/bookings/types"
 import {
+  DAYS_PER_WEEK,
   addDays,
-  formatDateRange,
   formatLongDate,
   formatRelativeDay,
   formatTime,
@@ -25,11 +20,6 @@ import {
 } from "@/lib/date"
 import { cn } from "@/lib/utils"
 
-import { useBookings } from "../hooks/use-bookings"
-import type { Booking } from "../types"
-import { DashboardCard } from "./dashboard-card"
-
-const DAYS_PER_WEEK = 7
 
 interface WeekDaysProps {
   days: Date[]
@@ -113,40 +103,17 @@ export function WeekCard({ className }: { className?: string }) {
     return <Skeleton className={cn("h-63.25 rounded-[12px] bg-white", className)} />
   }
 
-  const { now, bookings } = data
+  const { now, scheduled } = data
   const selected = selectedDay ?? now
   const days = getWeekDays(selected)
   const shiftWeek = (weeks: number) => setSelectedDay(addDays(selected, weeks * DAYS_PER_WEEK))
 
   return (
-    <DashboardCard className={cn("gap-7", className)}>
-      <CardHeader className="gap-2">
-        <CardTitle className="text-2xl leading-[1.2] text-ink-strong">
-          <h2>Your week</h2>
-        </CardTitle>
-        <CardDescription aria-live="polite" className="leading-[1.3]">
-          {formatDateRange(days[0], days[days.length - 1])}
-        </CardDescription>
-        <CardAction className="-mt-1.5 -mr-2 flex">
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            aria-label="Previous week"
-            onClick={() => shiftWeek(-1)}
-          >
-            <ChevronLeft aria-hidden="true" className="size-4.5" />
-          </Button>
-          <Button variant="ghost" size="icon-sm" aria-label="Next week" onClick={() => shiftWeek(1)}>
-            <ChevronRight aria-hidden="true" className="size-4.5" />
-          </Button>
-        </CardAction>
-      </CardHeader>
-      <CardContent className="flex-1 justify-between gap-7">
-        <WeekDays days={days} selected={selected} today={now} onSelect={setSelectedDay} />
-        <div aria-live="polite">
-          <DayAgenda day={selected} today={now} bookings={bookings} />
-        </div>
-      </CardContent>
-    </DashboardCard>
+    <WeekCardShell days={days} onShiftWeek={shiftWeek} className={className}>
+      <WeekDays days={days} selected={selected} today={now} onSelect={setSelectedDay} />
+      <div aria-live="polite">
+        <DayAgenda day={selected} today={now} bookings={scheduled} />
+      </div>
+    </WeekCardShell>
   )
 }

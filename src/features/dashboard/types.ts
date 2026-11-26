@@ -21,22 +21,3 @@ export interface DashboardStat {
   value: number
   hint: string
 }
-
-export type BookingStatus = "confirmed" | "pending"
-
-export interface BookingProfessional {
-  name: string
-  shortName: string
-  portrait?: StaticImageData
-}
-
-export interface Booking {
-  id: string
-  professional: BookingProfessional
-  service: string
-  serviceDetail: string
-  location: string
-  status: BookingStatus
-  start: Date
-  end: Date
-}

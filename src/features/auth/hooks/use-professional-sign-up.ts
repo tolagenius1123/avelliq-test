@@ -4,13 +4,13 @@ import { useFormik } from "formik"
 import { useState } from "react"
 import { toast } from "sonner"
 
+import { simulateRequest } from "@/lib/simulate-request"
 import {
   PROFESSIONAL_SIGN_UP_INITIAL_VALUES,
   PROFESSIONAL_SIGN_UP_SCHEMAS,
   type ProfessionalSignUpFormValues,
 } from "@/schemas/validation-schemas"
 
-import { simulateAuthRequest } from "../api"
 import { PROFESSIONAL_SIGN_UP_STAGES } from "../data/content"
 import type { ProfessionalSignUpStep } from "../types"
 import { authHref } from "../utils"
@@ -28,7 +28,7 @@ export function useProfessionalSignUp() {
   const stepIndex = STEPS.indexOf(step)
 
   const createAccount = useAuthSubmit<ProfessionalSignUpFormValues>({
-    request: simulateAuthRequest,
+    request: simulateRequest,
     redirectTo: authHref("sign-in", "professional"),
     successMessage: "Application received. Please sign in to continue.",
     errorMessage: "We couldn't create your account. Please try again.",
@@ -42,7 +42,7 @@ export function useProfessionalSignUp() {
 
       if (step === "account") {
         try {
-          await simulateAuthRequest()
+          await simulateRequest()
         } catch (error) {
           console.error(EMAIL_ERROR_MESSAGE, error)
           toast.error(EMAIL_ERROR_MESSAGE)

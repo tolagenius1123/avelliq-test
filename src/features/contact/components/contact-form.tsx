@@ -37,6 +37,10 @@ export function ContactForm() {
         setSubmitState("success")
         return
       }
+      if ("deliveryFailed" in result) {
+        setSubmitState("error")
+        return
+      }
       for (const [name, messages] of Object.entries(result.fieldErrors)) {
         setError(name as keyof ContactFormValues, { message: messages?.[0] })
       }

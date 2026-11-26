@@ -6,9 +6,9 @@ import { FormikInputField } from "@/components/form/formik/formik-input-field"
 import { FormikPasswordField } from "@/components/form/formik/formik-password-field"
 import { SubmitButton } from "@/components/form/submit-button"
 import { ComingSoonButton } from "@/components/shared/coming-soon-button"
+import { simulateRequest } from "@/lib/simulate-request"
 import { LOGIN_INITIAL_VALUES, loginValidationSchema } from "@/schemas/validation-schemas"
 
-import { simulateAuthRequest } from "../api"
 import { SIGN_IN_REDIRECTS } from "../data/content"
 import { useAuthForm } from "../hooks/use-auth-form"
 import type { AuthRole } from "../types"
@@ -17,7 +17,7 @@ export function SignInForm({ role }: { role: AuthRole }) {
   const formik = useAuthForm({
     initialValues: LOGIN_INITIAL_VALUES,
     validationSchema: loginValidationSchema,
-    request: simulateAuthRequest,
+    request: simulateRequest,
     redirectTo: SIGN_IN_REDIRECTS[role],
     successMessage: "Login successful",
     errorMessage: "Login failed. Please check your details and try again.",

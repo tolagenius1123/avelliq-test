@@ -44,6 +44,9 @@ export const ROUTES = {
   signIn: "/sign-in",
   signUp: "/sign-up",
   dashboard: "/dashboard",
+  findCare: "/dashboard/find-care",
+  bookings: "/dashboard/bookings",
+  messages: "/dashboard/messages",
 } as const
 
 export const MAIN_NAV: NavItem[] = [

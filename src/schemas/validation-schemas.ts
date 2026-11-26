@@ -2,6 +2,7 @@ import * as yup from "yup"
 
 import { AVAILABILITY_OPTIONS, EXPERIENCE_OPTIONS, US_STATE_OPTIONS } from "@/features/auth/data/options"
 import type { ProfessionalSignUpStep } from "@/features/auth/types"
+import type { BookingStep } from "@/features/booking-flow/types"
 import {
   HOURS_PER_SESSION_OPTIONS,
   NUMBER_OF_CHILDREN_OPTIONS,
@@ -9,7 +10,12 @@ import {
 } from "@/features/care-request/data/options"
 import { SERVICE_OPTIONS } from "@/features/services/data/service-options"
 import { optionValues } from "@/lib/options"
-import { PHONE_PATTERN, SSN_LAST_FOUR_PATTERN, ZIP_CODE_PATTERN } from "@/lib/patterns"
+import {
+  CARD_SECURITY_CODE_PATTERN,
+  PHONE_PATTERN,
+  SSN_LAST_FOUR_PATTERN,
+  ZIP_CODE_PATTERN,
+} from "@/lib/patterns"
 
 const MINIMUM_AGE = 18
 const MIN_PASSWORD_LENGTH = 8
@@ -37,6 +43,11 @@ const confirmPassword = yup
 const phoneNumber = requiredText("Phone number is required.").matches(
   PHONE_PATTERN,
   "Enter a valid phone number."
+)
+
+const zipCode = requiredText("Zip code is required.").matches(
+  ZIP_CODE_PATTERN,
+  "Enter a valid zip code."
 )
 
 const oneOfOptions = (values: string[], message: string) =>
@@ -91,7 +102,7 @@ const professionalPersonalSchema = yup.object({
   city: requiredText("City is required."),
   state: oneOfOptions(optionValues(US_STATE_OPTIONS), "Select your state."),
   homeAddress: requiredText("Home address is required."),
-  zipCode: requiredText("Zip code is required.").matches(ZIP_CODE_PATTERN, "Enter a valid zip code."),
+  zipCode,
 })
 
 const professionalDetailsSchema = yup.object({
@@ -149,6 +160,61 @@ export const careRequestValidationSchema = yup.object({
     .required(),
   specialRequirements: yup.string().trim().max(1000, "Keep this under 1000 characters.").default(""),
 })
+
+const bookingScheduleSchema = yup.object({
+  date: yup
+    .string()
+    .required("Choose a date.")
+    .test("not-in-past", "Choose today or a future date.", isTodayOrLater),
+  startTime: yup.string().required("Choose a start time."),
+  endTime: yup
+    .string()
+    .required("Choose an end time.")
+    .when("startTime", ([startTime], schema) =>
+      schema.test("after-start", "End time must be after the start time.", (value) =>
+        Boolean(value && value > startTime)
+      )
+    ),
+})
+
+const bookingCareSchema = yup.object({
+  recipient: requiredText("Tell us who needs care.").max(80, "Keep this under 80 characters."),
+  careService: yup.string().required("Select a care service."),
+  address: requiredText("House address is required."),
+  city: requiredText("City is required."),
+  zipCode,
+  contactName: requiredText("Contact name is required."),
+  contactPhone: phoneNumber,
+  notes: yup.string().trim().max(500, "Keep this under 500 characters.").default(""),
+})
+
+const bookingPaymentSchema = yup.object({
+  cardId: yup.string().required("Choose a card."),
+  securityCode: requiredText("Security code is required.").matches(
+    CARD_SECURITY_CODE_PATTERN,
+    "Enter the 3 or 4 digit code."
+  ),
+  billingSameAsCare: yup.boolean().default(true),
+  billingAddress: yup
+    .string()
+    .trim()
+    .default("")
+    .when("billingSameAsCare", {
+      is: false,
+      then: (schema) => schema.required("Billing address is required."),
+    }),
+})
+
+export const BOOKING_SCHEMAS = {
+  schedule: bookingScheduleSchema,
+  care: bookingCareSchema,
+  payment: bookingPaymentSchema,
+  review: yup.object({}),
+} satisfies Record<BookingStep, yup.AnyObjectSchema>
+
+export type BookingFormValues = yup.InferType<typeof bookingScheduleSchema> &
+  yup.InferType<typeof bookingCareSchema> &
+  yup.InferType<typeof bookingPaymentSchema>
 
 export type LoginFormValues = yup.InferType<typeof loginValidationSchema>
 export type ClientSignUpFormValues = yup.InferType<typeof clientSignUpValidationSchema>

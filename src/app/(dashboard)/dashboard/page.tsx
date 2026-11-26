@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 
+import { DashboardPage } from "@/features/dashboard/components/dashboard-page"
 import { DiscoverServices } from "@/features/dashboard/components/discover-services"
 import { NextBookingCard } from "@/features/dashboard/components/next-booking-card"
 import { SafetyCard } from "@/features/dashboard/components/safety-card"
@@ -13,19 +14,17 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-export default function DashboardPage() {
+export default function DashboardOverviewPage() {
   return (
-    <div className="@container">
-      <div className="flex flex-col gap-6 px-4 py-6 md:px-6 md:py-8">
-        <WelcomeBanner />
-        <StatsOverview />
-        <div className="grid grid-cols-1 gap-5 @2xl:grid-cols-2 @5xl:grid-cols-[497fr_243fr_372fr]">
-          <NextBookingCard className="@2xl:col-span-2 @5xl:col-span-1" />
-          <SafetyCard />
-          <WeekCard />
-        </div>
-        <DiscoverServices />
+    <DashboardPage>
+      <WelcomeBanner />
+      <StatsOverview />
+      <div className="grid grid-cols-1 gap-5 @2xl:grid-cols-2 @5xl:grid-cols-[497fr_243fr_372fr]">
+        <NextBookingCard className="@2xl:col-span-2 @5xl:col-span-1" />
+        <SafetyCard />
+        <WeekCard />
       </div>
-    </div>
+      <DiscoverServices />
+    </DashboardPage>
   )
 }
